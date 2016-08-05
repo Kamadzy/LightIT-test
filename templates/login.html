@@ -2,14 +2,18 @@
     <div class="testbox">
         <h1>Login</h1>
 
-        <form action="/">
+        <form ng-submit="login()">
+
+            <div class="error-login" ng-if="dataLoading">
+                {{errorMessage}}
+            </div>
 
             <label class="icon" for="email"><i class="icon-envelope "></i></label>
-            <input type="text" name="name" id="email" placeholder="Email" required/>
+            <input type="text" ng-model="username" id="email" placeholder="Email" required/>
             <label class="icon" for="pass"><i class="icon-shield"></i></label>
-            <input type="password" name="name" id="pass" placeholder="Password" required/>
+            <input type="password" ng-model="password" id="pass" placeholder="Password" required/>
             <div class="button-reg">
-                <a href="#" class="button">Login</a>
+                <button type="submit" class="button">Login</button>
             </div>
         </form>
     </div>

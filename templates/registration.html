@@ -3,13 +3,22 @@
         <h1>Registration</h1>
 
         <form ng-submit="registration()">
+            <div class="error-registration" ng-if="dataLoading">
+                {{errorMessage}}
+            </div>
 
             <label class="icon" for="email"><i class="icon-envelope "></i></label>
             <input type="text" ng-model="username" id="email" placeholder="Email" required/>
             <label class="icon" for="pass"><i class="icon-shield"></i></label>
             <input type="password" ng-model="password" id="pass" placeholder="Password" required/>
             <div class="button-reg">
-            <button type="submit" class="button">Register</button>
+                <button type="submit" class="button">Register</button>
+            </div>
+            <div class="login-link">
+                <h5>If you already registered, you can login in</h5>
+                <div class="button-reg">
+                    <a ng-click="goToLogin()">Login</a>
+                </div>
             </div>
         </form>
     </div>

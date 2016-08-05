@@ -23,26 +23,50 @@
 
   app.controller('registrationController', ['$scope', '$rootScope', '$location', 'AuthenticationService',
         function ($scope, $rootScope, $location, AuthenticationService) {
-          // reset login status
+
+          $scope.dataLoading = false;
+          $scope.errorMessage = '';
           AuthenticationService.ClearCredentials();
 
           $scope.registration = function () {
-            $scope.dataLoading = true;
+            $scope.dataLoading = false;
             AuthenticationService.Registration($scope.username, $scope.password, function (response) {
               if (response.success) {
-                /*AuthenticationService.SetCredentials($scope.username, response.token);*/
+                AuthenticationService.SetCredentials($scope.username, response.token);
                 $location.path('/product-list');
               } else {
-                $scope.dataLoading = false;
+                $scope.dataLoading = true;
+                $scope.errorMessage = response.message;
               }
             });
           };
+          $scope.goToLogin = function(){
+            $location.path('/login');
+          }
         }]);
 
 
-  app.controller('loginController', function(){
+  app.controller('loginController', ['$scope', '$rootScope', '$location','AuthenticationService',
+      function($scope, $rootScope, $location, AuthenticationService){
 
-  });
+        $scope.dataLoading = false;
+        $scope.errorMessage = '';
+        AuthenticationService.ClearCredentials();
+
+        $scope.login = function () {
+          $scope.dataLoading = false;
+          AuthenticationService.Login($scope.username, $scope.password, function (response) {
+            if (response.success) {
+              AuthenticationService.SetCredentials($scope.username, response.token);
+              $location.path('/product-list');
+            } else {
+              $scope.dataLoading = true;
+              $scope.errorMessage = response.message;
+            }
+          });
+        };
+
+  }]);
 
 
   app.config(function($routeProvider) {
