@@ -1,24 +1,65 @@
 (function() {
   var app = angular.module('gemStore', ['store-directives', 'ngRoute','ngCookies','Authentication']);
 
-  app.controller('StoreController', ['$http', function($http){
+  app.controller('StoreController', ['$http','AuthenticationService', function($http,  AuthenticationService){
     var store = this;
     store.products = [];
     $http.get('http://smktesting.herokuapp.com/api/products').success(function(data){
         store.products = data;
+
+      angular.forEach(store.products, function(value, key) {
+        $http.get('http://smktesting.herokuapp.com/api/reviews/' + value.id)
+            .success(function(response){
+              store.products[key].reviews = response;
+
+
+
+            });
+      });
+
+
+
     });
   }]);
 
 
-  app.controller('ReviewController', function() {
+  app.controller('ReviewController', ["$scope","AuthenticationService",function($scope, AuthenticationService) {
     this.review = {};
+    this.rate = "";
+    this.text = "";
 
     this.addReview = function(product) {
-      product.reviews.push(this.review);
 
-      this.review = {};
+      AuthenticationService.SubmitReview(product.id, this.rate, this.text, function(response){
+          if(response.success){
+
+          }else{
+
+            product.reviews = response;
+
+          }
+      });
+
+      /*this.receivereview(id_product);*/
     };
-  });
+    /*this.receivereview = function(id_product){
+      console.log(this.productId);
+      AuthenticationService.GetAllReview(id_product, function(response){
+      if(response.success){
+
+      }else {
+
+        $scope.reviews = response;
+
+      }
+
+
+    });
+
+    };
+    this.receivereview(this.productId);*/
+
+  }]);
 
 
   app.controller('registrationController', ['$scope', '$rootScope', '$location', 'AuthenticationService',

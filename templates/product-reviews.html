@@ -1,37 +1,44 @@
 <!--  Product Reviews List -->
-<ul>
+<!--<ul>
   <h4>Reviews</h4>
-  <li ng-repeat="review in product.reviews">
+  <li ng-repeat="review in reviewCtrl.reviews">
     <blockquote>
-      <strong>{{review.stars}} Stars</strong>
-      {{review.body}}
-      <cite class="clearfix">—{{review.author}}</cite>
+      <strong>{{review.rate}} Stars</strong>
+      {{review.text}}
+
     </blockquote>
   </li>
-</ul>
+</ul>-->
 
 <!--  Review Form -->
 <form name="reviewForm" ng-controller="ReviewController as reviewCtrl" ng-submit="reviewCtrl.addReview(product)">
+    <ul>
+        <span style="display:none" ng-model="reviewCtrl.productId">{{product.id}}</span>
+        <h4>Reviews</h4>
+        <li ng-repeat="review in product.reviews">
+            <blockquote>
+                <strong>{{review.rate}} Stars</strong>
+                {{review.text}}
+
+            </blockquote>
+        </li>
+    </ul>
 
   <!--  Live Preview -->
-  <blockquote >
+ <!-- <blockquote >
     <strong>{{reviewCtrl.review.stars}} Stars</strong>
     {{reviewCtrl.review.body}}
-    <cite class="clearfix">—{{reviewCtrl.review.author}}</cite>
-  </blockquote>
+  </blockquote>-->
 
   <!--  Review Form -->
   <h4>Submit a Review</h4>
   <fieldset class="form-group">
-    <select ng-model="reviewCtrl.review.stars" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
+    <select ng-model="reviewCtrl.rate" class="form-control" ng-options="stars for stars in [5,4,3,2,1]" title="Stars">
       <option value>Rate the Product</option>
     </select>
   </fieldset>
   <fieldset class="form-group">
-    <textarea ng-model="reviewCtrl.review.body" class="form-control" placeholder="Write a short review of the product..." title="Review"></textarea>
-  </fieldset>
-  <fieldset class="form-group">
-    <input ng-model="reviewCtrl.review.author" type="email" class="form-control" placeholder="jimmyDean@example.org" title="Email" />
+    <textarea ng-model="reviewCtrl.text" class="form-control" placeholder="Write a short review of the product..." title="Review"></textarea>
   </fieldset>
   <fieldset class="form-group">
     <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />

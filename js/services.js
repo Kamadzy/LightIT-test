@@ -6,6 +6,7 @@ angular.module('Authentication',[])
     ['$http', '$cookieStore', '$rootScope', '$timeout',
         function ($http, $cookieStore, $rootScope, $timeout) {
             var service = {};
+            var reviews = {};
 
             service.Registration = function (username, password, callback) {
                 $http.post('http://smktesting.herokuapp.com/api/register/',{ username: username, password: password })
@@ -32,9 +33,32 @@ angular.module('Authentication',[])
                     }
                 };
 
-                $http.defaults.headers.common['Authorization'] = 'Token' + token;
+                $http.defaults.headers.common['Authorization'] = 'Token ' + token;
                 $cookieStore.put('globals', $rootScope.globals);
             };
+
+            service.SubmitReview = function (id_product,rate, text, callback){
+                $http.post('http://smktesting.herokuapp.com/api/reviews/' + id_product, {rate:rate ,text:text})
+                    .success(function(){
+                       service.GetAllReview(id_product, callback);
+
+                    });
+
+            };
+
+            service.GetAllReview = function(id_product, callback){
+                $http.get('http://smktesting.herokuapp.com/api/reviews/' + id_product)
+                    .success(function(response){
+                        reviews[id_product] = response;
+
+                        console.log(response);
+                        callback(response);
+
+                    });
+
+                return reviews[id_product];
+            };
+
 
             service.ClearCredentials = function () {
                 $rootScope.globals = {};
