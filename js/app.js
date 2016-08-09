@@ -1,5 +1,5 @@
 (function() {
-  var app = angular.module('gemStore', ['store-directives', 'ngRoute','ngCookies','Authentication']);
+  var app = angular.module('productStore', ['store-directives', 'ngRoute','ngCookies','Authentication']);
 
   app.controller('StoreController', ['$http','AuthenticationService', function($http,  AuthenticationService){
     var store = this;
@@ -12,12 +12,8 @@
             .success(function(response){
               store.products[key].reviews = response;
 
-
-
             });
       });
-
-
 
     });
   }]);
@@ -34,30 +30,11 @@
           if(response.success){
 
           }else{
-
             product.reviews = response;
-
           }
       });
 
-      /*this.receivereview(id_product);*/
     };
-    /*this.receivereview = function(id_product){
-      console.log(this.productId);
-      AuthenticationService.GetAllReview(id_product, function(response){
-      if(response.success){
-
-      }else {
-
-        $scope.reviews = response;
-
-      }
-
-
-    });
-
-    };
-    this.receivereview(this.productId);*/
 
   }]);
 

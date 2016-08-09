@@ -15,13 +15,6 @@
       };
     });
 
-    app.directive("productSpecs", function() {
-      return {
-        restrict:"A",
-        templateUrl: "templates/product-specs.html"
-      };
-    });
-
     app.directive("productTabs", function() {
       return {
         restrict: "E",
